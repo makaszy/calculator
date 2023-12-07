@@ -1,3 +1,5 @@
+// function that returns the precedence of operators
+
 function getOperatorPrecedence(op) {
   switch (op) {
     case '^':
