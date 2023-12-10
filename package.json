@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "webpack --progress --mode development",
     "watch": "webpack --progress --watch",
     "sass": "sass ./src/style.scss ./dist/output.css",
