@@ -9,6 +9,34 @@
   <link rel="stylesheet" href="./output.css"/>
 </head>
 <body>
-  
+  <div class="calculator">
+    <div class="calculator__display">
+      <input type="text" class="display__input display__input--history" readonly>
+      <input type="text" class="display__input display__input--operation" readonly>
+      <input type="text" class="display__input display__input--result" readonly>
+    </div>
+    <div class="calculator__keys calculator__keys--operands">
+      <button type="button" class="calculator__key calculator__key--operand">0</button>
+      <button type="button" class="calculator__key calculator__key--operand">1</button>
+      <button type="button" class="calculator__key calculator__key--operand">2</button>
+      <button type="button" class="calculator__key calculator__key--operand">3</button>
+      <button type="button" class="calculator__key calculator__key--operand">4</button>
+      <button type="button" class="calculator__key calculator__key--operand">5</button>
+      <button type="button" class="calculator__key calculator__key--operand">6</button>
+      <button type="button" class="calculator__key calculator__key--operand">7</button>
+      <button type="button" class="calculator__key calculator__key--operand">8</button>
+      <button type="button" class="calculator__key calculator__key--operand">9</button>
+    </div>
+    <div class="calculator__keys calculator__keys--operators">
+      <button type="button" class="calculator__key calculator__key--operator">(</button>
+      <button type="button" class="calculator__key calculator__key--operator">)</button>
+      <button type="button" class="calculator__key calculator__key--operator">^</button>
+      <button type="button" class="calculator__key calculator__key--operator">/</button>
+      <button type="button" class="calculator__key calculator__key--operator">*</button>
+      <button type="button" class="calculator__key calculator__key--operator">+</button>
+      <button type="button" class="calculator__key calculator__key--operator">-</button>
+      <button type="button" class="calculator__key calculator__key--operator">=</button>
+    </div>
+  </div>
 </body>
 </html>
