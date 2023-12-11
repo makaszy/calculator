@@ -21,7 +21,7 @@ const operationInput = {
       const sections = this.input.value.split(' ');
       const lastSection = sections[sections.length - 1];
       if (lastSection.includes('.')) {
-        console.log('only 1 decimal allowed'); //replace with a pop up;
+        console.log('only 1 decimal allowed'); //    ,replace with a pop up;
       } else {
         this.input.value += value;
       }
