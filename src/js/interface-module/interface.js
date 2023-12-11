@@ -60,7 +60,6 @@ operators.forEach((operator) => {
 const decimalPubSub = new PubSub();
 decimalPubSub.subscribe(operationInput.setDecimal.bind(operationInput));
 const decimal = document.querySelector('.calculator__key--decimal');
-
 decimal.addEventListener('click', () => {
   decimalPubSub.publish(decimal.value);
 });
@@ -70,4 +69,9 @@ const del = document.querySelector('.calculator__key--del');
 delPubSub.subscribe(operationInput.del.bind(operationInput));
 del.addEventListener('click', () => {
   delPubSub.publish();
+});
+// clear key
+const clear = document.querySelector('.calculator__key--clear');
+clear.addEventListener('click', () => {
+  window.location.reload();
 });
