@@ -2,7 +2,7 @@ const path = require('path');
 const sass = require('sass');
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/js/index.js',
   mode: 'development',
   devtool: 'inline-source-map',
   output: {
