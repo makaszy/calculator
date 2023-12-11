@@ -2,17 +2,20 @@ import PubSub from '../pub-sub-module/PubSub';
 
 const operationInput = {
   input: document.querySelector('.display__input--operation'),
+  lastCharIsOperator() {
+    return this.input.value.charAt(this.input.value.length - 1) === ' ';
+  },
   setValue(value) {
     this.input.value += value;
   },
   setOperator(value) {
-    if (this.input.value.charAt(this.input.value.length - 1) === ' ') {
+    if (this.lastCharIsOperator()) {
       this.input.value = this.input.value.substring(0, this.input.value.length - 3);
     }
     this.input.value += value;
   },
   setDecimal(value) {
-    if (this.input.value.charAt(this.input.value.length - 1) === ' ') {
+    if (this.lastCharIsOperator()) {
       this.input.value += `0${value}`;
     } else {
       const sections = this.input.value.split(' ');
@@ -22,6 +25,13 @@ const operationInput = {
       } else {
         this.input.value += value;
       }
+    }
+  },
+  del() {
+    if (this.lastCharIsOperator()) {
+      this.input.value = this.input.value.substring(0, this.input.value.length - 3);
+    } else {
+      this.input.value = this.input.value.substring(0, this.input.value.length - 1);
     }
   },
   getValue() {
@@ -53,4 +63,11 @@ const decimal = document.querySelector('.calculator__key--decimal');
 
 decimal.addEventListener('click', () => {
   decimalPubSub.publish(decimal.value);
+});
+// delete key
+const delPubSub = new PubSub();
+const del = document.querySelector('.calculator__key--del');
+delPubSub.subscribe(operationInput.del.bind(operationInput));
+del.addEventListener('click', () => {
+  delPubSub.publish();
 });
