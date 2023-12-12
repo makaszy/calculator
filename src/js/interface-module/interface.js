@@ -44,6 +44,8 @@ const operationInput = {
   del() {
     if (this.lastCharIsOperator()) {
       this.input.value = this.input.value.substring(0, this.input.value.length - 3);
+    } else if(this.lastCharIsEndParenthesis()) {
+      this.input.value = this.input.value.substring(0, this.input.value.length - 2);
     } else {
       this.input.value = this.input.value.substring(0, this.input.value.length - 1);
     }
@@ -65,6 +67,23 @@ const operationInput = {
       console.log('Start parenthesis missing');
     }
   },
+  solveValue() {
+    if (this.lastCharIsOperator()) {
+      this.input.value = this.input.value.substring(0, this.input.value.length - 3);
+    }
+    const sections = this.input.value.split(' ');
+    const parenthesisStart = sections.filter((section) => section === '(');
+    let parenthesisEnd = sections.filter((section) => section === ')');
+    if (parenthesisStart.length !== parenthesisEnd.length) {
+      while (parenthesisStart.length > parenthesisEnd.length) {
+        this.input.value += ' )';
+        parenthesisEnd += ' )';
+      }
+      return this.input.value;
+    }
+    return this.input.value;
+  },
+
   getValue() {
     return this.input.value;
   },
@@ -126,9 +145,11 @@ const solvePubSub = new PubSub();
 
 const solve = document.querySelector('.calculator__key--solve');
 
-solve.addEventListener('click', () => {
-  solvePubSub.publish(operationInput.getValue());
+solve.addEventListener('click', async () => {
+  const result = await operationInput.solveValue();
+  solvePubSub.publish(result);
 });
+
 const historyInput = {
   input: document.querySelector('.display__input--history'),
   historyArr: [],
@@ -139,3 +160,4 @@ const historyInput = {
 };
 
 solvePubSub.subscribe(historyInput.addOperation.bind(historyInput));
+
