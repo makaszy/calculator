@@ -20,7 +20,8 @@ function toPostfix(str) {
     stack.push(char);
     // push operator to stack
   };
-  str.split(' ').forEach((currentChar) => {
+  const splitStr = str.trim().split(' ').filter((char) => char !== ' ');
+  splitStr.forEach((currentChar) => {
     if (isOperand(currentChar)) {
       result.push(currentChar);
     } else if (currentChar === '(') {
