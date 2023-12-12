@@ -1,4 +1,5 @@
 import PubSub from '../pub-sub-module/PubSub';
+import solveInfix from '../calculation-module/solveInfix';
 
 const operationInput = {
   input: document.querySelector('.display__input--operation'),
@@ -12,7 +13,7 @@ const operationInput = {
     if (this.input.value.length < 2) {
       return false;
     }
-    return this.input.value.charAt(this.input.value.length - 2) === ')';
+    return this.input.value.charAt(this.input.value.length - 1) === ')';
   },
   setValue(value) {
     if (this.lastCharIsEndParenthesis()) {
@@ -119,3 +120,22 @@ const parenthesisEnd = document.querySelector('.calculator__key--parenthesis-end
 parenthesisEnd.addEventListener('click', () => {
   parenthesisEndPubSub.publish(parenthesisEnd.value);
 });
+
+// solve key
+const solvePubSub = new PubSub();
+
+const solve = document.querySelector('.calculator__key--solve');
+
+solve.addEventListener('click', () => {
+  solvePubSub.publish(operationInput.getValue());
+});
+const historyInput = {
+  input: document.querySelector('.display__input--history'),
+  historyArr: [],
+  addOperation(operation) {
+    this.historyArr.push(`${operation} = ${solveInfix(operation)}`);
+    this.input.value = this.historyArr;
+  },
+};
+
+solvePubSub.subscribe(historyInput.addOperation.bind(historyInput));
