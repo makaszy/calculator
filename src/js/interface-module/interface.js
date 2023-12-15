@@ -109,20 +109,24 @@ const operation = {
     return arr;
   },
   dltValue() {
-    if (this.valueArr.length !== 0) {
-      if (!this.lastValueIsType('operand')) {
-        this.valueArr.pop();
-      } else {
-        let lastElement = this.valueArr[this.valueArr.length - 1];
-        lastElement = lastElement.substring(0, this.valueArr.length - 1);
-        if (this.valueArr[this.valueArr.length - 1].length === 0) {
-          this.valueArr.pop();
-        }
-      }
-      this.publishChange();
+    if (this.valueArr.length === 0) {
+      return;
     }
+    const lastValue = this.valueArr[this.valueArr.length - 1];
+    if (!this.lastValueIsType('operand')) {
+      this.valueArr.pop();
+    } else {
+      const modifiedLastValue = lastValue.slice(0, -1);
+      if (modifiedLastValue.length > 0) {
+        this.valueArr[this.valueArr.length - 1] = modifiedLastValue;
+      } else {
+        this.valueArr.pop();
+      }
+    }
+    this.publishChange();
   },
 };
+
 
 /* const operationInput = {
   input: document.querySelector('.display__input--operation'),
