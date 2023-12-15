@@ -11,12 +11,17 @@ const operation = {
       preppedValue: this.prepIncompleteValueArr().join(' '),
     });
   },
+  publishComplete() {
+    this.pubSub.publish({
+      completeCalculation: this.prepIncompleteValueArr().join(' '),
+    });
+  },
 
-  lastValueIsType(type) {
-    if (this.valueArr.length === 0) {
+  lastValueIsType(type, arr = this.valueArr) {
+    if (arr.length === 0) {
       return false;
     }
-    const lastValue = this.valueArr[this.valueArr.length - 1];
+    const lastValue = arr[arr.length - 1];
     switch (type) {
       case 'operand': {
         return !Number.isNaN(Number(lastValue));
@@ -48,10 +53,6 @@ const operation = {
     this.publishChange();
   },
   addOperator(operator) {
-    if (this.lastValueIsType('end-parenthesis')) {
-      console.log('please add an operand first'); // replace with a pop up
-      return;
-    }
     if (this.lastValueIsType('operator')) {
       this.valueArr.pop();
     }
@@ -73,7 +74,7 @@ const operation = {
     this.publishChange();
   },
   addParenthesisStart() {
-    if (this.valueArr[this.valueArr.length - 1] === 0 || this.lastValueIsType('operator') || this.lastValueIsType('parenthesis-start')) {
+    if (this.valueArr[this.valueArr.length - 1] === 0 || this.lastValueIsType('operator') || this.lastValueIsType('start-parenthesis') ) {
       this.valueArr.push('(');
       this.publishChange();
     } else {
@@ -85,13 +86,14 @@ const operation = {
     const parenthesisEnd = this.valueArr.filter((section) => section === ')');
     if (parenthesisStart.length > parenthesisEnd.length) {
       this.valueArr.push(')');
+      this.publishChange();
     } else {
       console.log('Start parenthesis missing');
     }
   },
   addMissingParenthesisEnd(arr) {
-    const parenthesisStart = this.valueArr.filter((section) => section === '(');
-    const parenthesisEnd = this.valueArr.filter((section) => section === ')');
+    const parenthesisStart = arr.filter((section) => section === '(');
+    const parenthesisEnd = arr.filter((section) => section === ')');
     if (parenthesisStart.length !== parenthesisEnd.length) {
       while (parenthesisStart.length > parenthesisEnd.length) {
         arr.push(')');
@@ -102,10 +104,11 @@ const operation = {
   },
   prepIncompleteValueArr() {
     let arr = this.valueArr.slice();
-    if (this.lastValueIsType('operator')) {
+    while (this.lastValueIsType('operator', arr) || this.lastValueIsType('start-parenthesis', arr)) {
       arr.pop();
     }
     arr = this.addMissingParenthesisEnd(arr);
+    console.log(arr);
     return arr;
   },
   dltValue() {
@@ -125,136 +128,38 @@ const operation = {
     }
     this.publishChange();
   },
+  newOperation() {
+    this.publishComplete();
+    this.valueArr = [];
+  },
 };
 
-
-/* const operationInput = {
-  input: document.querySelector('.display__input--operation'),
- */
-  /* getLastCharsSubstr(num) {
-    const value = this.getValue();
-    return value.substring(value.length - num)
+function showValue(obj) {
+  const inputOperation = document.querySelector('.display__input--operation');
+  const inputHistory = document.querySelector('.display__input--history');
+  const inputResult = document.querySelector('.display__input--result');
+  if (obj.completeCalculation) {
+    inputHistory.value += `${obj.completeCalculation} = ${solveInfix(obj.completeCalculation)}`;
+    inputResult.value = ' ';
+    inputOperation.value = ' ';
+  } else {
+    inputOperation.value = obj.currentValue;
+    inputResult.value = solveInfix(obj.preppedValue);
   }
+}
+operation.pubSub.subscribe(showValue);
 
-  isType(type) {
-    if (this.input.value.length < 2) {
-      return false;
-    }
-    switch (type) {
-      case 'operator': {
-        const validOperators = ['+', '-', '*', '/', '^'];
-        const lastCharsTrimmed = this.getLastCharsSubstr(3).trim();
-        //const lastThreeCharTrimmed = value.substring(value.length - 3).trim();
-        return validOperators.includes(lastCharsTrimmed);
-      }
-      case 'start-parenthesis':
-        const lastTwoCharTrimmed = value.substring(value-length - 2).trim();
+// solve key
+const solvePubSub = new PubSub();
+solvePubSub.subscribe(operation.newOperation.bind(operation));
+const solveKey = document.querySelector('.calculator__key--solve');
+solveKey.addEventListener('click', () => {
+  solvePubSub.publish();
+});
 
-        return value.charAt(va);
-      default:
-        return 'unknown parameter';
-    }
-  }, */
-
-/*   lastCharIsOperator() {
-    if (this.input.value.length < 2) {
-      return false;
-    }
-    return this.input.value.charAt(this.input.value.length - 1) === ' ' && !this.lastCharIsEndParenthesis();
-  },
-  lastCharIsEndParenthesis() {
-    if (this.input.value.length < 2) {
-      return false;
-    }
-    return this.input.value.charAt(this.input.value.length - 1) === ')';
-  },
-  lastCharIsStartParenthesis() {
-    if (this.input.value.length < 2) {
-      return false;
-    }
-
-  }, */
-/*   setValue(value) {
-    if (this.lastCharIsEndParenthesis()) {
-      console.log('please add an operator'); // replace with a pop up
-    } else {
-      this.input.value += value;
-    }
-  }, */
-/*   setOperator(value) {
-    if (this.lastCharIsOperator() && !this.lastCharIsEndParenthesis()) {
-      this.input.value = this.input.value.substring(0, this.input.value.length - 3);
-      this.input.value += value;
-    } else if (this.lastCharIsEndParenthesis()) {
-      console.log('please set an operand');
-    } else {
-      this.input.value += value;
-    }
-    
-  }, */
-/*   setDecimal(value) {
-    if (this.lastCharIsOperator()) {
-      this.input.value += `0${value}`;
-    } else {
-      const sections = this.input.value.split(' ');
-      const lastSection = sections[sections.length - 1];
-      if (lastSection.includes('.')) {
-        console.log('only 1 decimal allowed'); // replace with a pop up;
-      } else {
-        this.input.value += value;
-      }
-    }
-  }, */
-/*   del() {
-    if (this.lastCharIsOperator()) {
-      this.input.value = this.input.value.substring(0, this.input.value.length - 3);
-    } else if(this.lastCharIsEndParenthesis()) {
-      this.input.value = this.input.value.substring(0, this.input.value.length - 2);
-    } else {
-      this.input.value = this.input.value.substring(0, this.input.value.length - 1);
-    }
-  }, */
-/*   setParenthesisStart(value) {
-    if (this.input.value.length === 0 || this.lastCharIsOperator()) {
-      this.input.value += value;
-    } else if (!this.lastCharIsOperator()) {
-      console.log('parentheses require a preceding operator'); // replace with a pop up
-    }
-  },
-  setParenthesisEnd(value) {
-    const sections = this.input.value.split(' ');
-    const parenthesisStart = sections.filter((section) => section === '(');
-    const parenthesisEnd = sections.filter((section) => section === ')');
-    if (parenthesisStart.length > parenthesisEnd.length) {
-      this.input.value += value;
-    } else {
-      console.log('Start parenthesis missing');
-    }
-  }, */
- /*  solveValue() {
-    if (this.lastCharIsOperator()) {
-      this.input.value = this.input.value.substring(0, this.input.value.length - 3);
-    }
-    const sections = this.input.value.split(' ');
-    const parenthesisStart = sections.filter((section) => section === '(');
-    let parenthesisEnd = sections.filter((section) => section === ')');
-    if (parenthesisStart.length !== parenthesisEnd.length) {
-      while (parenthesisStart.length > parenthesisEnd.length) {
-        this.input.value += ' )';
-        parenthesisEnd += ' )';
-      }
-      return this.input.value;
-    }
-    return this.input.value;
-  }, */
-
-/*   getValue() {
-    return this.input.value;
-  },
-}; */
 // operand keys
 const operandPubSub = new PubSub();
-operandPubSub.subscribe(operationInput.setValue.bind(operationInput));
+operandPubSub.subscribe(operation.addOperand.bind(operation));
 const operands = document.querySelectorAll('.calculator__key--operand');
 operands.forEach((operand) => {
   operand.addEventListener('click', () => {
@@ -263,7 +168,7 @@ operands.forEach((operand) => {
 });
 // operator keys
 const operatorPubSub = new PubSub();
-operatorPubSub.subscribe(operationInput.setOperator.bind(operationInput));
+operatorPubSub.subscribe(operation.addOperator.bind(operation));
 const operators = document.querySelectorAll('.calculator__key--operator');
 operators.forEach((operator) => {
   operator.addEventListener('click', () => {
@@ -272,15 +177,15 @@ operators.forEach((operator) => {
 });
 // decimal key
 const decimalPubSub = new PubSub();
-decimalPubSub.subscribe(operationInput.setDecimal.bind(operationInput));
+decimalPubSub.subscribe(operation.addDecimal.bind(operation));
 const decimal = document.querySelector('.calculator__key--decimal');
 decimal.addEventListener('click', () => {
-  decimalPubSub.publish(decimal.value);
+  decimalPubSub.publish();
 });
 // delete key
 const delPubSub = new PubSub();
 const del = document.querySelector('.calculator__key--del');
-delPubSub.subscribe(operationInput.del.bind(operationInput));
+delPubSub.subscribe(operation.dltValue.bind(operation));
 del.addEventListener('click', () => {
   delPubSub.publish();
 });
@@ -291,36 +196,15 @@ clear.addEventListener('click', () => {
 });
 // parenthesis start key
 const parenthesisStartPubSub = new PubSub();
-parenthesisStartPubSub.subscribe(operationInput.setParenthesisStart.bind(operationInput));
+parenthesisStartPubSub.subscribe(operation.addParenthesisStart.bind(operation));
 const parenthesisStart = document.querySelector('.calculator__key--parenthesis-start');
 parenthesisStart.addEventListener('click', () => {
-  parenthesisStartPubSub.publish(parenthesisStart.value);
+  parenthesisStartPubSub.publish();
 });
 // parenthesis end key
 const parenthesisEndPubSub = new PubSub();
-parenthesisEndPubSub.subscribe(operationInput.setParenthesisEnd.bind(operationInput));
+parenthesisEndPubSub.subscribe(operation.addParenthesisEnd.bind(operation));
 const parenthesisEnd = document.querySelector('.calculator__key--parenthesis-end');
 parenthesisEnd.addEventListener('click', () => {
-  parenthesisEndPubSub.publish(parenthesisEnd.value);
+  parenthesisEndPubSub.publish();
 });
-
-// solve key
-const solvePubSub = new PubSub();
-
-const solve = document.querySelector('.calculator__key--solve');
-
-solve.addEventListener('click', async () => {
-  const result = await operationInput.solveValue();
-  solvePubSub.publish(result);
-});
-
-const historyInput = {
-  input: document.querySelector('.display__input--history'),
-  historyArr: [],
-  addOperation(operation) {
-    this.historyArr.push(`${operation} = ${solveInfix(operation)}`);
-    this.input.value = this.historyArr;
-  },
-};
-
-solvePubSub.subscribe(historyInput.addOperation.bind(historyInput));
