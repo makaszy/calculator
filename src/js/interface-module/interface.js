@@ -4,7 +4,7 @@ import solveInfix from '../calculation-module/solveInfix';
 const operation = {
   valueArr: [],
   pubSub: new PubSub(),
-
+  alertPubSub: new PubSub(),
   publishChange() {
     this.pubSub.publish({
       currentValue: this.valueArr.join(' '),
@@ -16,7 +16,9 @@ const operation = {
       completeCalculation: this.prepIncompleteValueArr().join(' '),
     });
   },
-
+  publishAlert(text) {
+    this.alertPubSub.publish(text);
+  },
   lastValueIsType(type, arr = this.valueArr) {
     if (arr.length === 0) {
       return false;
@@ -42,8 +44,8 @@ const operation = {
   },
   addOperand(operand) {
     if (this.lastValueIsType('end-parenthesis')) {
-      console.log('please add an operator');
-      return; // replace with a pop up
+      this.publishAlert('please add an operator');
+      return;
     }
     if (this.lastValueIsType('operand')) {
       this.valueArr[this.valueArr.length - 1] += operand;
@@ -63,10 +65,10 @@ const operation = {
     if (this.lastValueIsType('operator') || this.valueArr.length === 0) {
       this.valueArr.push('0.');
     } else if (this.valueArr[this.valueArr.length - 1].includes('.')) {
-      console.log('only 1 decimal allowed');
-      return; // replace with a pop up;
+      this.publishAlert('only 1 decimal allowed');
+      return;
     } else if (this.lastValueIsType('end-parenthesis')) {
-      console.log('add an operator first');
+      this.publishAlert('add an operator first');
       return;
     } else {
       this.valueArr[this.valueArr.length - 1] += '.';
@@ -78,7 +80,7 @@ const operation = {
       this.valueArr.push('(');
       this.publishChange();
     } else {
-      console.log('parenthesis require an operator');
+      this.publishAlert('parenthesis require an operator');
     }
   },
   addParenthesisEnd() {
@@ -88,7 +90,7 @@ const operation = {
       this.valueArr.push(')');
       this.publishChange();
     } else {
-      console.log('Start parenthesis missing');
+      this.publishAlert('Start parenthesis missing');
     }
   },
   addMissingParenthesisEnd(arr) {
@@ -108,7 +110,6 @@ const operation = {
       arr.pop();
     }
     arr = this.addMissingParenthesisEnd(arr);
-    console.log(arr);
     return arr;
   },
   dltValue() {
