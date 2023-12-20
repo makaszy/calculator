@@ -1,166 +1,51 @@
 import PubSub from '../pub-sub-module/PubSub';
-import solveInfix from '../calculation-module/solveInfix';
+import calculator from '../calculator-module/calculator';
 
-const operation = {
-  valueArr: [],
-  pubSub: new PubSub(),
-  alertPubSub: new PubSub(),
-  publishChange() {
-    this.pubSub.publish({
-      currentValue: this.valueArr.join(' '),
-      preppedValue: this.prepIncompleteValueArr().join(' '),
-    });
-  },
-  publishComplete() {
-    this.pubSub.publish({
-      completeCalculation: this.prepIncompleteValueArr().join(' '),
-    });
-  },
-  publishAlert(text) {
-    this.alertPubSub.publish(text);
-  },
-  lastValueIsType(type, arr = this.valueArr) {
-    if (arr.length === 0) {
-      return false;
-    }
-    const lastValue = arr[arr.length - 1];
-    switch (type) {
-      case 'operand': {
-        return !Number.isNaN(Number(lastValue));
-      }
-      case 'operator': {
-        const validOperators = ['+', '-', '*', '/', '^'];
-        return validOperators.includes(lastValue);
-      }
-      case 'start-parenthesis': {
-        return lastValue === '(';
-      }
-      case 'end-parenthesis': {
-        return lastValue === ')';
-      }
-      default:
-        return 'invalid type';
-    }
-  },
-  addOperand(operand) {
-    if (this.lastValueIsType('end-parenthesis')) {
-      this.publishAlert('please add an operator');
-      return;
-    }
-    if (this.lastValueIsType('operand')) {
-      this.valueArr[this.valueArr.length - 1] += operand;
-    } else {
-      this.valueArr.push(operand);
-    }
-    this.publishChange();
-  },
-  addOperator(operator) {
-    if (this.lastValueIsType('operator')) {
-      this.valueArr.pop();
-    }
-    this.valueArr.push(operator);
-    this.publishChange();
-  },
-  addDecimal() {
-    if (this.lastValueIsType('operator') || this.valueArr.length === 0) {
-      this.valueArr.push('0.');
-    } else if (this.valueArr[this.valueArr.length - 1].includes('.')) {
-      this.publishAlert('only 1 decimal allowed');
-      return;
-    } else if (this.lastValueIsType('end-parenthesis')) {
-      this.publishAlert('add an operator first');
-      return;
-    } else {
-      this.valueArr[this.valueArr.length - 1] += '.';
-    }
-    this.publishChange();
-  },
-  addParenthesisStart() {
-    if (this.valueArr[this.valueArr.length - 1] === 0 || this.lastValueIsType('operator') || this.lastValueIsType('start-parenthesis') ) {
-      this.valueArr.push('(');
-      this.publishChange();
-    } else {
-      this.publishAlert('parenthesis require an operator');
-    }
-  },
-  addParenthesisEnd() {
-    const parenthesisStart = this.valueArr.filter((section) => section === '(');
-    const parenthesisEnd = this.valueArr.filter((section) => section === ')');
-    if (parenthesisStart.length > parenthesisEnd.length) {
-      this.valueArr.push(')');
-      this.publishChange();
-    } else {
-      this.publishAlert('Start parenthesis missing');
-    }
-  },
-  addMissingParenthesisEnd(arr) {
-    const parenthesisStart = arr.filter((section) => section === '(');
-    const parenthesisEnd = arr.filter((section) => section === ')');
-    if (parenthesisStart.length !== parenthesisEnd.length) {
-      while (parenthesisStart.length > parenthesisEnd.length) {
-        arr.push(')');
-        parenthesisEnd.push(')');
-      }
-    }
-    return arr;
-  },
-  prepIncompleteValueArr() {
-    let arr = this.valueArr.slice();
-    while (this.lastValueIsType('operator', arr) || this.lastValueIsType('start-parenthesis', arr)) {
-      arr.pop();
-    }
-    arr = this.addMissingParenthesisEnd(arr);
-    return arr;
-  },
-  dltValue() {
-    if (this.valueArr.length === 0) {
-      return;
-    }
-    const lastValue = this.valueArr[this.valueArr.length - 1];
-    if (!this.lastValueIsType('operand')) {
-      this.valueArr.pop();
-    } else {
-      const modifiedLastValue = lastValue.slice(0, -1);
-      if (modifiedLastValue.length > 0) {
-        this.valueArr[this.valueArr.length - 1] = modifiedLastValue;
-      } else {
-        this.valueArr.pop();
-      }
-    }
-    this.publishChange();
-  },
-  newOperation() {
-    this.publishComplete();
-    this.valueArr = [];
-  },
-};
+// displays the values of inputs
+const inputOperation = document.querySelector('.display__input--operation');
+const inputHistory = document.querySelector('.display__input--history');
+const inputResult = document.querySelector('.display__input--result');
 
-function showValue(obj) {
-  const inputOperation = document.querySelector('.display__input--operation');
-  const inputHistory = document.querySelector('.display__input--history');
-  const inputResult = document.querySelector('.display__input--result');
-  if (obj.completeCalculation) {
-    inputHistory.value += `${obj.completeCalculation} = ${solveInfix(obj.completeCalculation)}`;
-    inputResult.value = ' ';
-    inputOperation.value = ' ';
-  } else {
-    inputOperation.value = obj.currentValue;
-    inputResult.value = solveInfix(obj.preppedValue);
-  }
+function displayInputValues(obj) {
+  inputOperation.value = obj.operationValue;
+  inputHistory.value = obj.historyValue;
+  inputResult.value = obj.resultValue;
 }
-operation.pubSub.subscribe(showValue);
+
+calculator.inputsPubSub.subscribe(displayInputValues);
+
+// group subscribe function
+const operandPubSub = new PubSub();
+const operatorPubSub = new PubSub();
+const decimalPubSub = new PubSub();
+const dltPubSub = new PubSub();
+const parenthesisStartPubSub = new PubSub();
+const parenthesisEndPubSub = new PubSub();
+
+function subscribeNewOperation(newOperation) {
+  operandPubSub.subscribe(newOperation.addOperand.bind(newOperation));
+  operatorPubSub.subscribe(newOperation.addOperator.bind(newOperation));
+  decimalPubSub.subscribe(newOperation.addDecimal.bind(newOperation));
+  dltPubSub.subscribe(newOperation.dltValue.bind(newOperation));
+  parenthesisStartPubSub.subscribe(
+    newOperation.addParenthesisStart.bind(newOperation),
+  );
+  parenthesisEndPubSub.subscribe(
+    newOperation.addParenthesisEnd.bind(newOperation),
+  );
+}
+
+calculator.keysPubSub.subscribe(subscribeNewOperation);
+calculator.newOperation();
 
 // solve key
 const solvePubSub = new PubSub();
-solvePubSub.subscribe(operation.newOperation.bind(operation));
+solvePubSub.subscribe(calculator.newOperation.bind(calculator));
 const solveKey = document.querySelector('.calculator__key--solve');
 solveKey.addEventListener('click', () => {
   solvePubSub.publish();
 });
-
 // operand keys
-const operandPubSub = new PubSub();
-operandPubSub.subscribe(operation.addOperand.bind(operation));
 const operands = document.querySelectorAll('.calculator__key--operand');
 operands.forEach((operand) => {
   operand.addEventListener('click', () => {
@@ -168,8 +53,6 @@ operands.forEach((operand) => {
   });
 });
 // operator keys
-const operatorPubSub = new PubSub();
-operatorPubSub.subscribe(operation.addOperator.bind(operation));
 const operators = document.querySelectorAll('.calculator__key--operator');
 operators.forEach((operator) => {
   operator.addEventListener('click', () => {
@@ -177,18 +60,14 @@ operators.forEach((operator) => {
   });
 });
 // decimal key
-const decimalPubSub = new PubSub();
-decimalPubSub.subscribe(operation.addDecimal.bind(operation));
 const decimal = document.querySelector('.calculator__key--decimal');
 decimal.addEventListener('click', () => {
   decimalPubSub.publish();
 });
 // delete key
-const delPubSub = new PubSub();
-const del = document.querySelector('.calculator__key--del');
-delPubSub.subscribe(operation.dltValue.bind(operation));
-del.addEventListener('click', () => {
-  delPubSub.publish();
+const dlt = document.querySelector('.calculator__key--del');
+dlt.addEventListener('click', () => {
+  dltPubSub.publish();
 });
 // clear key
 const clear = document.querySelector('.calculator__key--clear');
@@ -196,16 +75,16 @@ clear.addEventListener('click', () => {
   window.location.reload();
 });
 // parenthesis start key
-const parenthesisStartPubSub = new PubSub();
-parenthesisStartPubSub.subscribe(operation.addParenthesisStart.bind(operation));
-const parenthesisStart = document.querySelector('.calculator__key--parenthesis-start');
+const parenthesisStart = document.querySelector(
+  '.calculator__key--parenthesis-start',
+);
 parenthesisStart.addEventListener('click', () => {
   parenthesisStartPubSub.publish();
 });
 // parenthesis end key
-const parenthesisEndPubSub = new PubSub();
-parenthesisEndPubSub.subscribe(operation.addParenthesisEnd.bind(operation));
-const parenthesisEnd = document.querySelector('.calculator__key--parenthesis-end');
+const parenthesisEnd = document.querySelector(
+  '.calculator__key--parenthesis-end',
+);
 parenthesisEnd.addEventListener('click', () => {
   parenthesisEndPubSub.publish();
 });
