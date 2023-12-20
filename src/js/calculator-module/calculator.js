@@ -1,6 +1,6 @@
-import Operation from "./operation-class/operation";
-import PubSub from "../pub-sub-module/PubSub";
-import solveInfix from "./solve-infix-function/solveInfix";
+import Operation from './operation-class/operation';
+import PubSub from '../pub-sub-module/PubSub';
+import solveInfix from './solve-infix-function/solveInfix';
 
 const calculator = {
   operations: [],
@@ -20,7 +20,7 @@ const calculator = {
     return {
       operationValue: currentValue,
       preppedValue,
-      resultValue: preppedValue ? solveInfix(preppedValue) : " ",
+      resultValue: preppedValue ? solveInfix(preppedValue) : ' ',
     };
   },
 
@@ -53,8 +53,8 @@ const calculator = {
     }
     const currentOperationValues = this.getCurrentOperationValues();
     if (
-      this.operations.length > 0 &&
-      currentOperationValues.resultValue !== " "
+      this.operations.length > 0
+      && currentOperationValues.resultValue !== ' '
     ) {
       const lastOperationIndex = this.operations.length - 1;
       this.operations[lastOperationIndex] = {
