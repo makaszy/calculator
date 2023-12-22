@@ -36,7 +36,6 @@ function subscribeNewOperation(newOperation) {
 }
 
 calculator.keysPubSub.subscribe(subscribeNewOperation);
-calculator.newOperation();
 
 // solve key
 const solvePubSub = new PubSub();
@@ -88,3 +87,4 @@ const parenthesisEnd = document.querySelector(
 parenthesisEnd.addEventListener('click', () => {
   parenthesisEndPubSub.publish();
 });
+

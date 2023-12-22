@@ -1,2 +1,4 @@
 import './interface-module/interface';
-import './calculator-module/calculator';
+import calculator from './calculator-module/calculator';
+
+calculator.newOperation();
