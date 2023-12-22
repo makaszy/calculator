@@ -6,14 +6,13 @@ const calculator = {
   operations: [],
   keysPubSub: new PubSub(),
   inputsPubSub: new PubSub(),
-
+  
+  // gets current operation
   getCurrentOperation() {
     return this.operations[this.operations.length - 1];
   },
-  getPreviousOperation() {
-    return this.operations[this.operations.length - 2];
-  },
 
+  // returns the operation, prepped and result values
   getCurrentOperationValues() {
     const valueStrings = this.getCurrentOperation().getValueStrings();
     const { currentValue, preppedValue } = valueStrings;
@@ -24,6 +23,7 @@ const calculator = {
     };
   },
 
+  // updates the values of the operation, result, and history inputs
   updateInputsValues() {
     let historyValues = [];
     if (this.operations.length > 1) {
@@ -36,21 +36,21 @@ const calculator = {
       historyValue: historyValues,
     });
   },
+
+  // publishes the new operation that keys have to subscribe to
   updateKeySubscriptions() {
-    // publishes the new operation that keys have to subscribe to
     this.keysPubSub.publish(this.getCurrentOperation());
   },
+
+  // subscribes to the pubSub property of the current operation
   subscribeToCurrent() {
-    // subscribes to the pubSub property of the current operation
     this.getCurrentOperation().pubSub.subscribe(
       this.updateInputsValues.bind(calculator)
     );
   },
 
-  newOperation() {
-    if (this.operations.length === 0) {
-      this.operations = [new Operation()];
-    }
+  // turns previous operation into an object with completeEquation method.
+  retireCurrentOperation() {
     const currentOperationValues = this.getCurrentOperationValues();
     if (
       this.operations.length > 0
@@ -60,14 +60,20 @@ const calculator = {
       this.operations[lastOperationIndex] = {
         completeEquation: `${currentOperationValues.preppedValue} = ${currentOperationValues.resultValue}`,
       };
-      this.operations = [...this.operations, new Operation()];
     }
+  },
+
+  // creates a new operation
+  newOperation() {
+    if (this.operations.length === 0) {
+      this.operations = [new Operation()];
+    }
+    this.retireCurrentOperation();
+    this.operations = [...this.operations, new Operation()];
     this.updateKeySubscriptions();
     this.subscribeToCurrent();
     this.updateInputsValues();
   },
 };
-
-calculator.newOperation();
 
 export default calculator;
