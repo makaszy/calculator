@@ -88,3 +88,35 @@ parenthesisEnd.addEventListener('click', () => {
   parenthesisEndPubSub.publish();
 });
 
+// alert modal
+const modalIcon = document.querySelector('.display__alert-icon');
+const modal = document.querySelector('.display__modal');
+const modalText = document.querySelector(".modal-content__text");
+
+function showModal() {
+  modal.style.display = 'block';
+}
+function hideModal() {
+  modal.style.display = 'none';
+}
+
+// for pc
+modalIcon.addEventListener('mouseover', showModal);
+modalIcon.addEventListener('mouseout', hideModal);
+
+// for touchscreens
+modalIcon.addEventListener('click', showModal);
+modalIcon.addEventListener('touchend', hideModal);
+
+function updateModal(text) {
+  modalIcon.setAttribute('style', 'display: block');
+  modalText.textContent = text;
+}
+
+function hideModalIcon() {
+  modalIcon.setAttribute('style', 'display: none');
+  hideModal();
+}
+
+calculator.alertModalPubSub.subscribe(updateModal);
+calculator.inputsPubSub.subscribe(hideModalIcon);
