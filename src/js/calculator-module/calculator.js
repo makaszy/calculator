@@ -6,6 +6,7 @@ const calculator = {
   operations: [],
   keysPubSub: new PubSub(),
   inputsPubSub: new PubSub(),
+  alertModalPubSub: new PubSub(),
   
   // gets current operation
   getCurrentOperation() {
@@ -42,15 +43,18 @@ const calculator = {
     this.keysPubSub.publish(this.getCurrentOperation());
   },
 
+  publishAlert(alertTxt) {
+    this.alertModalPubSub.publish(alertTxt);
+  },
+
   // subscribes to the pubSub property of the current operation
   subscribeToCurrent() {
     this.getCurrentOperation().pubSub.subscribe(
       this.updateInputsValues.bind(calculator)
     );
     this.getCurrentOperation().alertPubSub.subscribe(
-      
+      this.publishAlert.bind(calculator)
     )
-    
   },
 
   // turns previous operation into an object with completeEquation method.
