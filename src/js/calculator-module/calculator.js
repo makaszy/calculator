@@ -47,6 +47,10 @@ const calculator = {
     this.getCurrentOperation().pubSub.subscribe(
       this.updateInputsValues.bind(calculator)
     );
+    this.getCurrentOperation().alertPubSub.subscribe(
+      
+    )
+    
   },
 
   // turns previous operation into an object with completeEquation method.

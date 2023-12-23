@@ -6,6 +6,7 @@ class Operation {
   constructor() {
     this.valueArr = [];
     this.pubSub = new PubSub();
+    this.alertPubSub = new PubSub();
   }
 
   static lastValueIsType(type, arr) {
@@ -53,6 +54,10 @@ class Operation {
 
   publishChange() {
     this.pubSub.publish();
+  }
+
+  publishAlert(alertTxt) {
+    this.alertPubSub.publish(alertTxt);
   }
 
   getValueStrings() {
