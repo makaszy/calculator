@@ -7,9 +7,9 @@
     "test": "jest",
     "build": "webpack --progress --mode development",
     "watch": "webpack --progress --watch",
-    "sass": "sass ./src/style.scss ./dist/output.css",
-    "build-all": "sass ./src/style.scss ./dist/output.css && webpack",
-    "watch-all": "concurrently \"sass --watch ./src/style.scss ./dist/output.css\" \"webpack --watch\""
+    "sass": "sass ./src/style/style.scss ./dist/output.css",
+    "build-all": "sass ./src/style/style.scss ./dist/output.css && webpack",
+    "watch-all": "concurrently \"sass --watch ./src/style/style.scss ./dist/output.css\" \"webpack --watch\""
   },
   "keywords": [],
   "author": "",
