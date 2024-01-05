@@ -11,9 +11,9 @@
 <body>
   <div class="calculator">
     <div class="calculator__display">
-      <input type="text" class="display__input display__input--history" readonly>
-      <input type="text" class="display__input display__input--operation" readonly>
-      <input type="text" class="display__input display__input--result" readonly>
+      <div contenteditable="true" class="display__input display__input--history"></div>
+      <div contenteditable="true" class="display__input display__input--operation"></div>
+      <div contenteditable="true" class="display__input display__input--result"></div>
       <div class="display__alert-icon">
         <span>i</span>
       </div>
@@ -23,31 +23,37 @@
         </div>
       </div>
     </div>
-    <div class="calculator__keys calculator__keys--operands">
-      <button type="button" class="calculator__key calculator__key--operand" value="0">0</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="1">1</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="2">2</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="3">3</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="4">4</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="5">5</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="6">6</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="7">7</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="8">8</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="9">9</button>
-    </div>
-    <div class="calculator__keys calculator__keys--operators">
-      <button type="button" class="calculator__key calculator__key--parenthesis-start" value="(">(</button>
-      <button type="button" class="calculator__key calculator__key--parenthesis-end" value=")">)</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="^">^</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="/">/</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="*">*</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="+">+</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="-">-</button>
-      <button type="button" class="calculator__key calculator__key--decimal" value=".">.</button>
-      <button type="button" class="calculator__key calculator__key--del" value="del">del</button>
-      <button type="button" class="calculator__key calculator__key--clear" value="clear">clear</button>
-      <button type="button" class="calculator__key calculator__key--solve" value="=">=</button>
-    </div>
+    <div class="calculator-keys-section">
+      <div class="calculator__keys calculator__keys--operators calculator__keys--top">
+        <button type="button" class="calculator__key calculator__key--clear" value="clear">C</button>
+        <button type="button" class="calculator__key calculator__key--del" value="del">del</button>
+        <button type="button" class="calculator__key calculator__key--operator" value="^">^</button>
+        <button type="button" class="calculator__key calculator__key--operator" value="/">/</button>
+      </div>
+      <div class="calculator__keys calculator__keys--operands calculator__keys--left" >
+        <button type="button" class="calculator__key calculator__key--operand" value="9">9</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="8">8</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="7">7</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="6">6</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="5">5</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="4">4</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="3">3</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="2">2</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="1">1</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="0">0</button>
+        <button type="button" class="calculator__key calculator__key--decimal" value=".">.</button>
+      </div>
+      <div class="calculator__keys calculator__keys--operators calculator__keys--right">
+        <button type="button" class="calculator__key calculator__key--operator" value="*">*</button>
+        <button type="button" class="calculator__key calculator__key--operator" value="+">+</button>
+        <button type="button" class="calculator__key calculator__key--operator" value="-">-</button>
+        <button type="button" class="calculator__key calculator__key--solve" value="=">=</button>
+      </div>
+      <div class="calculator__keys calculator__keys--parenthesis">
+        <button type="button" class="calculator__key calculator__key--parenthesis-start" value="(">(</button>
+        <button type="button" class="calculator__key calculator__key--parenthesis-end" value=")">)</button>  
+      </div>
+    </div> 
   </div>
 </body>
 </html>
