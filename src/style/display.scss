@@ -1,16 +1,22 @@
-
+.display-section {
+  display: grid;
+  gap: 5px;
+  grid-template-rows: 2fr 2fr 1fr;
+  margin-top: 5%;
+  margin-left: 9%;
+  margin-right: 9%;
+  max-height: 35vh;
+}
 .display__input {
   background-color: inherit;
   color: $font-color;
-  border: none;
   overflow-wrap: break-word;
   resize: none;
   min-height: 1rem;
-  max-height: 75px;
-  overflow-y: scroll;
+  overflow-y: auto;
   text-align: right;
-  margin-left: 9%;
-  margin-right: 9%;
+  scroll-behavior: smooth;
+  line-height: 25px;
 }
 
 .display__input--result, .display__input--history {

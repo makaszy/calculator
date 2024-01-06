@@ -6,44 +6,21 @@ const inputOperation = document.querySelector('.display__input--operation');
 const inputHistory = document.querySelector('.display__input--history');
 const inputResult = document.querySelector('.display__input--result');
 
+function scrollToNewest() {
+  [inputOperation, inputHistory, inputResult].forEach((input) => {
+    input.scrollTop = input.scrollHeight;
+  })
+}
+
 function displayInputValues(obj) {
   inputOperation.textContent = obj.operationValue;
   inputHistory.textContent = obj.historyValue;
   inputResult.textContent = obj.resultValue;
 }
 
-function resizeInput(input) {
-  input.style.height = 'auto';
-  const newHeight = input.scrollHeight;
-  input.style.height = newHeight + 'px';
-}
-
-function getMaxHeight(input) {
-  let computedMaxHeight = window.getComputedStyle(input).maxHeight;
-  let currentMaxHeight = parseInt(computedMaxHeight) || 0;
-  return currentMaxHeight;
-}
-
-function resizeFont(input, fontSize) {
-  let currentInputHeight = parseInt(input.style.height);
-    let currentMaxHeight = getMaxHeight(input);
-    if ( (currentInputHeight > currentMaxHeight) && (input.style.fontSize !== fontSize)) { 
-      input.style.fontSize = fontSize;
-    }
-}
-
-function adjustContent() {
-  const inputs = [inputOperation, inputHistory, inputResult];
-  inputs.forEach((input) => {
-    resizeInput(input);
-    resizeFont(input, '75%');
-    resizeInput(input);
-  })
-}
-
 calculator.inputsPubSub.subscribe(displayInputValues);
-calculator.inputsPubSub.subscribe(adjustContent);
 
+calculator.inputsPubSub.subscribe(scrollToNewest);
 
 // group subscribe function
 const operandPubSub = new PubSub();
