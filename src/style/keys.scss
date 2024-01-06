@@ -1,0 +1,35 @@
+.keys-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+}
+
+.calculator__keys {
+  display: grid;
+  grid-column: span 4;
+  grid-row: span 1;
+}
+
+.calculator__keys--top {
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.calculator__keys--left {
+  grid-column: span 3;
+  grid-row: 2 / span 4;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.calculator__keys--right {
+  grid-column: 4;
+  grid-row: 2 / span 4;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.calculator__keys--parenthesis {
+  display: none;
+}
