@@ -43,3 +43,23 @@
   padding: 0px;
   color: inherit;
 }
+
+.calculator__key-container {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  position: relative;
+}
+
+.calculator__key--solve {
+  font-weight: bolder;
+  color: $font-color;
+  text-align: center;
+  width: 30px;
+  height: 30px;
+  background-color: $accent-color;
+  border-radius: 50%;
+}
+.calculator__key--solve:active {
+  transform: scale(0.9);
+}
