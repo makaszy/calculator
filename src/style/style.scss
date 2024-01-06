@@ -1,1 +1,19 @@
-@use 'normalize.scss';
+@import 'colors.scss';
+@import 'normalize.scss';
+@import 'display.scss';
+@import 'keys.scss';
+
+:root {
+  background-color: $background-color;
+}
+
+.calculator {
+  height: 100vh;
+  width: 100%;
+  max-width: 450px;
+  max-height: 550px;
+  margin: auto;
+  display: grid;
+  grid-template-rows: 1fr 2fr;
+  border: white 1px solid;
+}

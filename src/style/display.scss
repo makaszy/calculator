@@ -1,13 +1,16 @@
+
 .display__input {
   background-color: inherit;
   color: $font-color;
-  width: 90vw;
   border: none;
   overflow-wrap: break-word;
   resize: none;
   min-height: 1rem;
   max-height: 75px;
   overflow-y: scroll;
+  text-align: right;
+  margin-left: 9%;
+  margin-right: 9%;
 }
 
 .display__input--result, .display__input--history {
