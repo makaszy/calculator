@@ -69,7 +69,7 @@ class Operation {
 
   addOperand(operand) {
     if (Operation.lastValueIsType('end-parenthesis', this.valueArr)) {
-      this.publishAlert('please add an operator');
+      this.publishAlert('Please add an operator!');
       return;
     }
     if (Operation.lastValueIsType('operand', this.valueArr)) {
@@ -84,7 +84,7 @@ class Operation {
     if (Operation.lastValueIsType('operator', this.valueArr)) {
       this.valueArr.pop();
     } else if (Operation.lastValueIsType('start-parenthesis', this.valueArr) || this.valueArr.length === 0) {
-      this.publishAlert('add operand first');
+      this.publishAlert('Please add an operand first!');
     } else {
       this.valueArr.push(operator);
       this.publishChange();
@@ -95,10 +95,10 @@ class Operation {
     if (Operation.lastValueIsType('operator', this.valueArr) || this.valueArr.length === 0) {
       this.valueArr.push('0.');
     } else if (this.valueArr[this.valueArr.length - 1].includes('.')) {
-      this.publishAlert('only 1 decimal allowed');
+      this.publishAlert('Only 1 decimal is allowed!');
       return;
     } else if (Operation.lastValueIsType('end-parenthesis', this.valueArr)) {
-      this.publishAlert('add an operator first');
+      this.publishAlert('Please add an operator first!');
       return;
     } else {
       this.valueArr[this.valueArr.length - 1] += '.';
@@ -111,7 +111,7 @@ class Operation {
       this.valueArr.push('(');
       this.publishChange();
     } else {
-      this.publishAlert('parenthesis require an operator');
+      this.publishAlert('Parenthesis require an operator!');
     }
   }
 
@@ -122,7 +122,7 @@ class Operation {
       this.valueArr.push(')');
       this.publishChange();
     } else {
-      this.publishAlert('Start parenthesis missing');
+      this.publishAlert('Start parenthesis is missing!');
     }
   }
 
