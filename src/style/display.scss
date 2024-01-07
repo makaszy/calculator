@@ -17,8 +17,53 @@
   text-align: right;
   scroll-behavior: smooth;
   line-height: 25px;
+  font-size: 2rem;
 }
 
 .display__input--result, .display__input--history {
   color: $font-color--dark;
+}
+
+.modal-content__text {
+  display: none;
+  color: $font-color;
+  font-size: 1.5rem;
+  margin: 0px;
+  text-align: center;
+}
+
+.modal-content {
+  padding: 10px 25px;
+  border-radius: 20px;
+  display: block;
+  min-height: 28px;
+  transition: width 0.4s ease-in-out;
+  width: 0%;
+  background-color: $accent-color;
+}
+.transition-in--alert-icon {
+  opacity: 1 !important;
+}
+
+.transition-in--modal {
+  width: 90% !important;
+}
+
+.display__alert-icon {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  color: $font-color;
+  position: absolute;
+  background-color: $accent-color;
+  font-size: 100%;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+
+  text-align: center;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
 }
