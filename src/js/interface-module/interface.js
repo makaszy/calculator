@@ -99,14 +99,39 @@ parenthesisEnd.addEventListener('click', () => {
 // alert modal
 const modalIcon = document.querySelector('.display__alert-icon');
 const modal = document.querySelector('.display__modal');
+const modalContent = document.querySelector('.modal-content')
 const modalText = document.querySelector(".modal-content__text");
 
-function showModal() {
-  modal.style.display = 'block';
+
+function delay(duration) {
+  return new Promise(resolve => setTimeout(resolve, duration));
 }
+
+async function showTransitionModal() {
+  modal.style.display = 'block';
+  await delay(0);
+  modalContent.classList.add('transition-in--modal');
+  await delay(300);
+}
+
+async function showModal() {
+   await showTransitionModal()
+   modalText.style.display = 'block'
+}
+
+async function showTransitionIcon() {
+  modalIcon.style.display = 'block';
+  await delay(0);
+  modalIcon.classList.add('transition-in--alert-icon');
+  await delay(500);
+}
+
+
 function hideModal() {
   modal.style.display = 'none';
-}
+  modalContent.classList.remove('transition-in--modal');
+  modalText.style.display = "none";
+} 
 
 // for pc
 modalIcon.addEventListener('mouseover', showModal);
@@ -116,12 +141,13 @@ modalIcon.addEventListener('mouseout', hideModal);
 modalIcon.addEventListener('click', showModal);
 modalIcon.addEventListener('touchend', hideModal);
 
-function updateModal(text) {
-  modalIcon.setAttribute('style', 'display: block');
+async function updateModal(text) {
+  await showTransitionIcon();
   modalText.textContent = text;
 }
 
 function hideModalIcon() {
+  modalIcon.classList.remove('transition-in--alert-icon');
   modalIcon.setAttribute('style', 'display: none');
   hideModal();
 }
