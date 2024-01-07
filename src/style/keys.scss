@@ -8,6 +8,7 @@
   display: grid;
   grid-column: span 4;
   grid-row: span 1;
+  font-size: 2rem;
 }
 
 .calculator__keys--top {
@@ -70,19 +71,12 @@
   transition: 0s;
 }
 
-.calculator__key-container {
-  display: flex;
-  justify-content: center;
-  align-items: center; 
-  position: relative;
-}
-
 .calculator__key--solve {
+  margin: auto;
   font-weight: bolder;
   color: $font-color;
-  text-align: center;
-  width: 30px;
-  height: 30px;
+  width: 3rem;
+  height: 3rem;
   background-color: $accent-color;
   border-radius: 50%;
 }
