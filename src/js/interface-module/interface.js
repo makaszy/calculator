@@ -14,8 +14,8 @@ function scrollToNewest() {
 
 function displayInputValues(obj) {
   inputOperation.textContent = obj.operationValue;
-  inputHistory.textContent = obj.historyValue;
-  inputResult.textContent = obj.resultValue;
+  inputHistory.textContent = obj.historyValue.join('\n');
+  inputResult.textContent = (obj.resultValue === " ") ? ' ' : ` = ${obj.resultValue}`;
 }
 
 calculator.inputsPubSub.subscribe(displayInputValues);

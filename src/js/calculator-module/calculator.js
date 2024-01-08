@@ -19,8 +19,8 @@ const calculator = {
     const { currentValue, preppedValue } = valueStrings;
     return {
       operationValue: currentValue,
-      preppedValue,
-      resultValue: preppedValue ? solveInfix(preppedValue) : ' ',
+      preppedValue: preppedValue ,
+      resultValue: preppedValue ? solveInfix(preppedValue) : " ",
     };
   },
 

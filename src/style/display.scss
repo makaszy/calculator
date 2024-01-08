@@ -24,6 +24,12 @@
   color: $font-color--dark;
 }
 
+.display__input--history {
+  white-space: pre-line;
+  line-height: 25px;
+
+}
+
 .modal-content__text {
   display: none;
   color: $font-color;
