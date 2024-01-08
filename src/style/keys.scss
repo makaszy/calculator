@@ -84,6 +84,17 @@
   border-radius: 50%;
 }
 
-.calculator__key--solve:active {
+.calculator__key--solve:active, .calculator__key--del:active {
   transform: scale(0.9);
+}
+
+.calculator__keys--top .calculator__key, .calculator__keys--right .calculator__key {
+  font-weight: 800;
+}
+
+.svg-wrapper {
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
