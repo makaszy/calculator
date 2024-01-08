@@ -88,9 +88,19 @@
   transform: scale(0.9);
 }
 
+
+
 .calculator__keys--top .calculator__key, .calculator__keys--right .calculator__key {
   font-weight: 900;
   font-size: 42px;
+}
+
+.calculator__key--power {
+  transform: scale(0.9);
+}
+
+.calculator__key--multiply {
+  rotate: 45deg;
 }
 
 .svg-wrapper {
