@@ -63,7 +63,14 @@ operands.forEach((operand) => {
 const operators = document.querySelectorAll('.calculator__key--operator');
 operators.forEach((operator) => {
   operator.addEventListener('click', () => {
-    operatorPubSub.publish(operator.value);
+    console.log(operator.value)
+    if (!operator.value) {
+      console.log(operator.dataset.value)
+      operatorPubSub.publish(operator.dataset.value)
+    } else {
+      operatorPubSub.publish(operator.value);
+    }
+   
   });
 });
 // decimal key
