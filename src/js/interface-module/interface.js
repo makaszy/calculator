@@ -126,7 +126,6 @@ async function showTransitionIcon() {
   await delay(500);
 }
 
-
 function hideModal() {
   modal.style.display = 'none';
   modalContent.classList.remove('transition-in--modal');

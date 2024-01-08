@@ -35,7 +35,10 @@
 }
 
 .calculator__keys--parenthesis {
-  display: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
 .calculator__key {
@@ -80,6 +83,7 @@
   background-color: $accent-color;
   border-radius: 50%;
 }
+
 .calculator__key--solve:active {
   transform: scale(0.9);
 }
