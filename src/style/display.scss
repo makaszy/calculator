@@ -52,18 +52,9 @@
 .display__alert-icon {
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
-  color: $font-color;
   position: absolute;
-  background-color: $accent-color;
-  font-size: 100%;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
+}
 
-  text-align: center;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 2rem;
+.display__alert-icon:active {
+  transform: scale(0.9);
 }
