@@ -5,7 +5,7 @@
   margin-top: 5%;
   margin-left: 9%;
   margin-right: 9%;
-  max-height: 35vh;
+  max-height: 32vh;
 }
 .display__input {
   background-color: inherit;
@@ -18,6 +18,23 @@
   scroll-behavior: smooth;
   line-height: 25px;
   font-size: 2rem;
+}
+.display__input:focus {
+  outline: 1px solid $accent-color;
+  
+}
+.display__input {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: transparent transparent; /* For Firefox */
+  -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+.display__input::-webkit-scrollbar {
+  width: 0.1em; /* For WebKit browsers (Chrome, Safari) */
+}
+
+.display__input::-webkit-scrollbar-thumb {
+  background-color: transparent; /* For WebKit browsers (Chrome, Safari) */
 }
 
 .display__input--result, .display__input--history {

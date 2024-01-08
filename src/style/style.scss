@@ -6,10 +6,13 @@
 :root {
   background-color: $background-color;
   height: 100vh;
+  width: 100%;
 }
 html, body {
   height: 100vh;
+  width: 100%;
   margin: 0px;
+  overflow: hidden;
 }
 
 .calculator {
@@ -20,10 +23,10 @@ html, body {
   grid-template-rows: 1fr 2fr;
 }
 
-
+/* 
 @media screen and (min-width: 800px) {
   .calculator {
     max-width: 600px;
     height: 100%;
   }
-}
+} */
