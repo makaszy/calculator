@@ -7,7 +7,7 @@ const calculator = {
   keysPubSub: new PubSub(),
   inputsPubSub: new PubSub(),
   alertModalPubSub: new PubSub(),
-  
+
   // gets current operation
   getCurrentOperation() {
     return this.operations[this.operations.length - 1];
@@ -54,15 +54,15 @@ const calculator = {
     );
     this.getCurrentOperation().alertPubSub.subscribe(
       this.publishAlert.bind(calculator)
-    )
+    );
   },
 
   // turns previous operation into an object with completeEquation method.
   retireCurrentOperation() {
     const currentOperationValues = this.getCurrentOperationValues();
     if (
-      this.operations.length > 0
-      && currentOperationValues.resultValue !== ' '
+      this.operations.length > 0 &&
+      currentOperationValues.resultValue !== ' '
     ) {
       const lastOperationIndex = this.operations.length - 1;
       this.operations[lastOperationIndex] = {

@@ -1,0 +1,110 @@
+.keys-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, minmax(0, 1fr));
+}
+
+.calculator__keys {
+  display: grid;
+  grid-column: span 4;
+  grid-row: span 1;
+  font-size: 2rem;
+}
+
+.calculator__keys--top {
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  color: $accent-color;
+}
+
+.calculator__keys--left {
+  grid-column: span 3;
+  grid-row: 2 / span 4;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  color: $font-color;
+}
+
+.calculator__keys--right {
+  grid-column: 4;
+  grid-row: 2 / span 4;
+  display: grid;
+  grid-template-columns: 1fr;
+  color: $accent-color;
+}
+
+.calculator__keys--parenthesis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.calculator__key {
+  position: relative;
+  background-color: inherit;
+  border: none;
+  padding: 0px;
+  color: inherit;
+  }
+
+.calculator__keys--left .calculator__key {
+  transition-duration: 0.4s;
+  -webkit-transition-duration: 0.4s;
+}
+
+.calculator__keys--left .calculator__key::after {
+  content: "";
+  display: block;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  transition: all 0.5s;
+  box-shadow: 0 0 3px 15px $font-color--dark;
+}
+.calculator__keys--left .calculator__key:active::after {
+  box-shadow: 0 0 0 0 $font-color--dark;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.4;
+  transition: 0s;
+}
+
+.calculator__key--solve {
+  margin: auto;
+  font-weight: bolder;
+  color: $font-color;
+  width: 3rem;
+  height: 3rem;
+  background-color: $accent-color;
+  border-radius: 50%;
+}
+
+
+.calculator__keys--top .calculator__key:active, .calculator__keys--right .calculator__key:active {
+  transform: scale(0.9);
+}
+
+.calculator__keys--top .calculator__key, .calculator__keys--right .calculator__key {
+  font-weight: 900;
+  font-size: 42px;
+}
+
+.calculator__key--multiply {
+  rotate: 45deg;
+}
+
+.svg-wrapper {
+  z-index: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

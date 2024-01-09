@@ -10,44 +10,66 @@
 </head>
 <body>
   <div class="calculator">
-    <div class="calculator__display">
-      <input type="text" class="display__input display__input--history" readonly>
-      <input type="text" class="display__input display__input--operation" readonly>
-      <input type="text" class="display__input display__input--result" readonly>
+    <div class="display-section">
+      <div contenteditable="true" class="display__input display__input--history"></div>
+      <div contenteditable="true" class="display__input display__input--operation"></div>
+      <div contenteditable="true" class="display__input display__input--result"></div>
       <div class="display__alert-icon">
-        <span>i</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="rgba(255,117,52,255)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
       </div>
       <div class="display__modal">
         <div class="modal-content">
-          <p class="modal-content__text"></p>
+        <p class="modal-content__text"></p>
         </div>
       </div>
     </div>
-    <div class="calculator__keys calculator__keys--operands">
-      <button type="button" class="calculator__key calculator__key--operand" value="0">0</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="1">1</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="2">2</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="3">3</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="4">4</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="5">5</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="6">6</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="7">7</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="8">8</button>
-      <button type="button" class="calculator__key calculator__key--operand" value="9">9</button>
-    </div>
-    <div class="calculator__keys calculator__keys--operators">
-      <button type="button" class="calculator__key calculator__key--parenthesis-start" value="(">(</button>
-      <button type="button" class="calculator__key calculator__key--parenthesis-end" value=")">)</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="^">^</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="/">/</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="*">*</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="+">+</button>
-      <button type="button" class="calculator__key calculator__key--operator" value="-">-</button>
-      <button type="button" class="calculator__key calculator__key--decimal" value=".">.</button>
-      <button type="button" class="calculator__key calculator__key--del" value="del">del</button>
-      <button type="button" class="calculator__key calculator__key--clear" value="clear">clear</button>
-      <button type="button" class="calculator__key calculator__key--solve" value="=">=</button>
-    </div>
+    <div class="keys-section">
+      <div class="calculator__keys calculator__keys--operators calculator__keys--top">
+        <button type="button" class="calculator__key calculator__key--clear" value="clear">C</button>
+        <div class="svg-wrapper">
+          <svg class="calculator__key calculator__key--del" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,117,52,255)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2z"></path>
+            <line x1="18" y1="9" x2="12" y2="15"></line>
+            <line x1="12" y1="9" x2="18" y2="15"></line>
+          </svg>
+        </div>
+        <button type="button" class="calculator__key calculator__key--operator calculator__key--power" value="^">^</button>
+        <div class="svg-wrapper">
+          <svg class="calculator__key calculator__key--divide calculator__key--operator" data-value="/" xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="rgba(255,117,52,255)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="feather feather-divide">
+            <circle cx="12" cy="6" r="2"></circle>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <circle cx="12" cy="18" r="2"></circle>
+          </svg>
+        </div>
+      </div>
+      <div class="calculator__keys calculator__keys--operands calculator__keys--left" >
+        <button type="button" class="calculator__key calculator__key--operand" value="7">7</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="8">8</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="9">9</button>
+        
+        <button type="button" class="calculator__key calculator__key--operand" value="4">4</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="5">5</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="6">6</button>
+        
+        <button type="button" class="calculator__key calculator__key--operand" value="1">1</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="2">2</button>
+        <button type="button" class="calculator__key calculator__key--operand" value="3">3</button>
+        <div class="calculator__keys--parenthesis">
+          <button type="button" class="calculator__key calculator__key--parenthesis-start" value="(">(</button>
+          <button type="button" class="calculator__key calculator__key--parenthesis-end" value=")">)</button>  
+        </div>
+        <button type="button" class="calculator__key calculator__key--operand" value="0">0</button>
+        <button type="button" class="calculator__key calculator__key--decimal" value=".">.</button>
+      </div>
+      <div class="calculator__keys calculator__keys--operators calculator__keys--right">
+        <button type="button" class="calculator__key calculator__key--operator calculator__key--multiply" value="*">+</button>
+        <button type="button" class="calculator__key calculator__key--operator " value="+">+</button>
+        <button type="button" class="calculator__key calculator__key--operator" value="-">-</button>
+        <button type="button" class="calculator__key calculator__key--solve" value="=">=</button>
+    
+      </div>
+      
+    </div> 
   </div>
 </body>
 </html>
