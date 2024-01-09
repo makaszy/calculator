@@ -2,19 +2,8 @@
 @import 'normalize.scss';
 @import 'display.scss';
 @import 'keys.scss';
+@import 'root.scss';
 
-:root {
-  background-color: $background-color;
-  height: 100vh;
-  width: 100%;
-}
-html, body {
-  height: 100vh;
-  width: 100%;
-  margin: 0px;
-  overflow: hidden;
-  font-family: Arial Black,Arial Bold,Gadget,sans-serif; 
-}
 
 .calculator {
   height: 100vh;
