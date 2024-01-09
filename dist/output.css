@@ -515,6 +515,7 @@ html, body {
   width: 100%;
   margin: 0px;
   overflow: hidden;
+  font-family: Arial Black, Arial Bold, Gadget, sans-serif;
 }
 
 .calculator {
