@@ -10,13 +10,14 @@ function scrollToNewest() {
   [inputOperation, inputHistory, inputResult].forEach((input) => {
     // eslint-disable-next-line no-param-reassign
     input.scrollTop = input.scrollHeight;
-  })
+  });
 }
 
 function displayInputValues(obj) {
   inputOperation.textContent = obj.operationValue;
   inputHistory.textContent = obj.historyValue.join('\n');
-  inputResult.textContent = (obj.resultValue === " ") ? ' ' : ` = ${obj.resultValue}`;
+  inputResult.textContent =
+    obj.resultValue === ' ' ? ' ' : ` = ${obj.resultValue}`;
 }
 
 calculator.inputsPubSub.subscribe(displayInputValues);
@@ -37,10 +38,10 @@ function subscribeNewOperation(newOperation) {
   decimalPubSub.subscribe(newOperation.addDecimal.bind(newOperation));
   dltPubSub.subscribe(newOperation.dltValue.bind(newOperation));
   parenthesisStartPubSub.subscribe(
-    newOperation.addParenthesisStart.bind(newOperation),
+    newOperation.addParenthesisStart.bind(newOperation)
   );
   parenthesisEndPubSub.subscribe(
-    newOperation.addParenthesisEnd.bind(newOperation),
+    newOperation.addParenthesisEnd.bind(newOperation)
   );
 }
 
@@ -65,11 +66,10 @@ const operators = document.querySelectorAll('.calculator__key--operator');
 operators.forEach((operator) => {
   operator.addEventListener('click', () => {
     if (!operator.value) {
-      operatorPubSub.publish(operator.dataset.value)
+      operatorPubSub.publish(operator.dataset.value);
     } else {
       operatorPubSub.publish(operator.value);
     }
-   
   });
 });
 // decimal key
@@ -89,14 +89,14 @@ clear.addEventListener('click', () => {
 });
 // parenthesis start key
 const parenthesisStart = document.querySelector(
-  '.calculator__key--parenthesis-start',
+  '.calculator__key--parenthesis-start'
 );
 parenthesisStart.addEventListener('click', () => {
   parenthesisStartPubSub.publish();
 });
 // parenthesis end key
 const parenthesisEnd = document.querySelector(
-  '.calculator__key--parenthesis-end',
+  '.calculator__key--parenthesis-end'
 );
 parenthesisEnd.addEventListener('click', () => {
   parenthesisEndPubSub.publish();
@@ -105,12 +105,13 @@ parenthesisEnd.addEventListener('click', () => {
 // alert modal
 const modalIcon = document.querySelector('.display__alert-icon');
 const modal = document.querySelector('.display__modal');
-const modalContent = document.querySelector('.modal-content')
-const modalText = document.querySelector(".modal-content__text");
-
+const modalContent = document.querySelector('.modal-content');
+const modalText = document.querySelector('.modal-content__text');
 
 function delay(duration) {
-  return new Promise(resolve => {setTimeout(resolve, duration)});
+  return new Promise((resolve) => {
+    setTimeout(resolve, duration);
+  });
 }
 
 async function showTransitionModal() {
@@ -121,8 +122,8 @@ async function showTransitionModal() {
 }
 
 async function showModal() {
-   await showTransitionModal()
-   modalText.style.display = 'block'
+  await showTransitionModal();
+  modalText.style.display = 'block';
 }
 
 async function showTransitionIcon() {
@@ -135,8 +136,8 @@ async function showTransitionIcon() {
 function hideModal() {
   modal.style.display = 'none';
   modalContent.classList.remove('transition-in--modal');
-  modalText.style.display = "none";
-} 
+  modalText.style.display = 'none';
+}
 
 // for pc
 modalIcon.addEventListener('mouseover', showModal);
