@@ -8,6 +8,7 @@ const inputResult = document.querySelector('.display__input--result');
 
 function scrollToNewest() {
   [inputOperation, inputHistory, inputResult].forEach((input) => {
+    // eslint-disable-next-line no-param-reassign
     input.scrollTop = input.scrollHeight;
   })
 }
@@ -63,9 +64,7 @@ operands.forEach((operand) => {
 const operators = document.querySelectorAll('.calculator__key--operator');
 operators.forEach((operator) => {
   operator.addEventListener('click', () => {
-    console.log(operator.value)
     if (!operator.value) {
-      console.log(operator.dataset.value)
       operatorPubSub.publish(operator.dataset.value)
     } else {
       operatorPubSub.publish(operator.value);
@@ -111,7 +110,7 @@ const modalText = document.querySelector(".modal-content__text");
 
 
 function delay(duration) {
-  return new Promise(resolve => setTimeout(resolve, duration));
+  return new Promise(resolve => {setTimeout(resolve, duration)});
 }
 
 async function showTransitionModal() {
