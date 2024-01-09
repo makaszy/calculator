@@ -13,6 +13,7 @@ html, body {
   width: 100%;
   margin: 0px;
   overflow: hidden;
+  font-family: Arial Black,Arial Bold,Gadget,sans-serif; 
 }
 
 .calculator {
@@ -22,7 +23,6 @@ html, body {
   display: grid;
   grid-template-rows: 1fr 2fr;
 }
-
 
 @media screen and (min-width: 800px) {
   .calculator {
